@@ -1,0 +1,26 @@
+
+Dithering:
+
+03 08 0000 0701		M1
+03 08 0000 0702		M2
+03 08 0000 0703		M3
+03 08 0000 0704		M4
+
+Contrast
+
+03 08 0000 0801		lowest
+03 08 0000 0809		highest
+
+Speed
+
+03 08 0000 0c00		??
+03 08 0000 0c01		fast++
+03 08 0000 0c02		fast+
+03 08 0000 0c03		fast
+03 08 0000 0c04		black+
+03 08 0000 0c05		black++
+
+Not sure, looks like it clears the screen:
+
+03 08 0000 0602		clear (?)
+03 08 0000 0603		clear (?)
