@@ -18,7 +18,7 @@ out the right bus using third-party ddcutil tool (likely packaged by your distro
 Create a udev rule which grants your user's group write permissions to i2c devices:
 
     echo "SUBSYSTEM==\"i2c-dev\", GROUP=\"your-group-here\", MODE=\"0660\"" | sudo tee /etc/udev/rules.d/50-i2c.rules
-    udevadm trigger
+    sudo udevadm trigger
     
 Usage:
 
