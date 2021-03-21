@@ -30,11 +30,11 @@ Usage:
       -i2c string
             i2c device path (see ddcutil detect --verbose)
       -mode int
-            Set dithering mode (1-4)
+            Set dithering mode (1-4 for M1-M4)
       -speed int
             Set drawing speed (1-5)
 
-Dithering modes:
+Drawing speeds:
 
     1	Fast++
     2	Fast+
