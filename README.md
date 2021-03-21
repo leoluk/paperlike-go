@@ -41,3 +41,25 @@ Dithering modes:
     3	Fast
     4	Black+
     5	Black++
+
+Example i3 config:
+
+    bindsym $mod+Mod1+1 exec paperlike-cli -i2c /dev/i2c-0 -contrast 1
+    bindsym $mod+Mod1+2 exec paperlike-cli -i2c /dev/i2c-0 -contrast 2
+    bindsym $mod+Mod1+3 exec paperlike-cli -i2c /dev/i2c-0 -contrast 3
+    bindsym $mod+Mod1+4 exec paperlike-cli -i2c /dev/i2c-0 -contrast 4
+    bindsym $mod+Mod1+5 exec paperlike-cli -i2c /dev/i2c-0 -contrast 5
+    bindsym $mod+Mod1+6 exec paperlike-cli -i2c /dev/i2c-0 -contrast 6
+    bindsym $mod+Mod1+7 exec paperlike-cli -i2c /dev/i2c-0 -contrast 7
+    bindsym $mod+Mod1+8 exec paperlike-cli -i2c /dev/i2c-0 -contrast 8
+    bindsym $mod+Mod1+9 exec paperlike-cli -i2c /dev/i2c-0 -contrast 9
+    bindsym $mod+Mod1+h exec paperlike-cli -i2c /dev/i2c-0 -mode 1
+    bindsym $mod+Mod1+j exec paperlike-cli -i2c /dev/i2c-0 -mode 2
+    bindsym $mod+Mod1+k exec paperlike-cli -i2c /dev/i2c-0 -mode 3
+    bindsym $mod+Mod1+l exec paperlike-cli -i2c /dev/i2c-0 -mode 4
+    bindsym $mod+Mod1+z exec paperlike-cli -i2c /dev/i2c-0 -speed 1
+    bindsym $mod+Mod1+u exec paperlike-cli -i2c /dev/i2c-0 -speed 2
+    bindsym $mod+Mod1+i exec paperlike-cli -i2c /dev/i2c-0 -speed 3
+    bindsym $mod+Mod1+o exec paperlike-cli -i2c /dev/i2c-0 -speed 4
+    bindsym $mod+Mod1+p exec paperlike-cli -i2c /dev/i2c-0 -speed 5
+    bindsym $mod+Mod1+Return exec paperlike-cli -i2c /dev/i2c-0 -clear
