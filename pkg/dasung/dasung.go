@@ -96,6 +96,6 @@ func (d *DasungControl) SetRefreshSpeed(mode RefreshSpeed) error {
 	return d.RawSetVCP([]byte{0x0c, uint8(mode)})
 }
 
-func (d *DasungControl) ClearScreen(mode RefreshSpeed) error {
+func (d *DasungControl) ClearScreen() error {
 	return d.RawSetVCP([]byte{0x06, 0x03})
 }
