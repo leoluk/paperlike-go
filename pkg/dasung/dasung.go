@@ -105,7 +105,7 @@ const (
 
 // SetLightIntensity sets the specified light intensity
 func (d *DasungControl) SetLightIntensity(light LightID, level int) error {
-	if level < 1 || level > 2 {
+	if light < 1 || light > 2 {
 		return errors.New("light id out of range")
 	}
 
