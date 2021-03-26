@@ -96,6 +96,26 @@ func (d *DasungControl) SetRefreshSpeed(mode RefreshSpeed) error {
 	return d.RawSetVCP([]byte{0x0c, uint8(mode)})
 }
 
+type LightID int
+
+const (
+	Light1 LightID = iota + 1
+	Light2
+)
+
+// SetLightIntensity sets the specified light intensity
+func (d *DasungControl) SetLightIntensity(light LightID, level int) error {
+	if level < 1 || level > 2 {
+		return errors.New("light id out of range")
+	}
+
+	if level < 0 || level > 85 {
+		return errors.New("level out of range")
+	}
+
+	return d.RawSetVCP([]byte{byte(0xD + light), byte(level * 3)})
+}
+
 func (d *DasungControl) ClearScreen() error {
 	return d.RawSetVCP([]byte{0x06, 0x03})
 }

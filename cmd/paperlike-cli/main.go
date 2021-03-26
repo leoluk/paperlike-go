@@ -11,9 +11,11 @@ import (
 var (
 	flagDevicePath = flag.String("i2c", "", "i2c device path (see ddcutil detect --verbose)")
 
-	flagContrast = flag.Int("contrast", 0, "Set contrast (1-9)")
-	flagMode     = flag.Int("mode", 0, "Set dithering mode (1-4)")
-	flagSpeed    = flag.Int("speed", 0, "Set drawing speed (1-5)")
+	flagContrast    = flag.Int("contrast", 0, "Set contrast (1-9)")
+	flagMode        = flag.Int("mode", 0, "Set dithering mode (1-4)")
+	flagSpeed       = flag.Int("speed", 0, "Set drawing speed (1-5)")
+	light1Intensity = flag.Int("light1", -1, "Set light1 intensity (0-85)")
+	light2Intensity = flag.Int("light2", -1, "Set light2 intensity (0-85)")
 
 	flagClear = flag.Bool("clear", false, "Clear screen")
 )
@@ -50,6 +52,18 @@ func main() {
 
 	if *flagSpeed != 0 {
 		if err := d.SetRefreshSpeed(dasung.RefreshSpeed(*flagSpeed)); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	if *light1Intensity > -1 {
+		if err := d.SetLightIntensity(1, *light1Intensity); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	if *light2Intensity > -1 {
+		if err := d.SetLightIntensity(2, *light2Intensity); err != nil {
 			log.Fatal(err)
 		}
 	}
