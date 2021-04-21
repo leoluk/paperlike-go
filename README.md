@@ -4,7 +4,7 @@ paperlike-go is a Go library and CLI tool to control a Dasung Paperlike HD* (201
 
 Installation instructions:
 
-    git clone github.com/leoluk/paperlike-go && cd paperlike-go
+    git clone https://github.com/leoluk/paperlike-go && cd paperlike-go
     go build github.com/leoluk/paperlike-go/cmd/paperlike-cli
 
     sudo install -m 0755 paperlike-cli /usr/local/bin/paperlike-cli
