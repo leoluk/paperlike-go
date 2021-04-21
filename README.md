@@ -19,7 +19,7 @@ Create a udev rule which grants your user's group write permissions to i2c devic
 
     echo "SUBSYSTEM==\"i2c-dev\", GROUP=\"your-group-here\", MODE=\"0660\"" | sudo tee /etc/udev/rules.d/50-i2c.rules
     sudo udevadm trigger
-    
+
 Usage:
 
     Usage of paperlike-cli:
@@ -29,6 +29,10 @@ Usage:
             Set contrast (1-9)
       -i2c string
             i2c device path (see ddcutil detect --verbose)
+      -light1 int
+            Set light1 intensity (0-85) (default -1)
+      -light2 int
+            Set light2 intensity (0-85) (default -1)
       -mode int
             Set dithering mode (1-4 for M1-M4)
       -speed int
