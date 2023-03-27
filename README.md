@@ -3,11 +3,10 @@
 [![GoDoc](https://godoc.org/github.com/leoluk/paperlike-go?status.svg)](https://godoc.org/github.com/leoluk/paperlike-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/leoluk/paperlike-go)](https://goreportcard.com/report/github.com/leoluk/paperlike-go)
 
-
-
-paperlike-go is a Go library and CLI tool to control a Dasung Paperlike HD* (2019) screen.
+paperlike-go is a Go library and CLI tool to control a Dasung Paperlike HD\* (2019) screen.
 
 # Installation
+
 Paperlike-go can be installed using the `go install` command:
 
     sudo GOBIN=/usr/local/bin/ go install github.com/leoluk/paperlike-go/cmd/paperlike-cli@latest
@@ -17,7 +16,7 @@ Paperlike-go can be installed using the `go install` command:
             <h2>Set up i2c permission for your user</h2>
       </summary>
 
-Your local user must be able to write to the monitor's i2c bus. 
+Your local user must be able to write to the monitor's i2c bus.
 
 1. Create a new user group called `i2c`:
 
@@ -29,8 +28,8 @@ Your local user must be able to write to the monitor's i2c bus.
 
 3. Change the group ownership of `/dev/i2c` codepoints to the `i2c` group:
 
-       sudo chown :i2c /dev/i2c-* 
-    
+       sudo chown :i2c /dev/i2c-*
+
 4. Update the group permissions of those same to allow read and write access:
 
        sudo chmod g+rw /dev/i2c-*
@@ -52,16 +51,15 @@ To determine the i2c path for your device, run the following command:
 
 Make note of the I2C bus path (e.g. `/dev/i2c-3`).
 
->In the case that that this command gives an ambiguous or empty result, you can read the full output by running `ddcutil detect --verbose`
+> In the case that that this command gives an ambiguous or empty result, you can read the full output by running `ddcutil detect --verbose`
 
 </details>
 
-
 # Usage:
 
-    Usage: paperlike-cli -i2c <i2c path> [command<value>] 
+    Usage: paperlike-cli -i2c <i2c path> [<command> <value>]
 
-      Mandatory flags:  
+      Mandatory flags:
             -i2c <path>       absolute path of the target i2c device
 
       Commands:
@@ -78,11 +76,11 @@ Make note of the I2C bus path (e.g. `/dev/i2c-3`).
 
 ## Display modes:
 
->Refer to your device's manual for the mapping of M1-M4 to specific image modes.
+> Refer to your device's manual for the mapping of M1-M4 to specific image modes.
 
 <details>
       <summary>
-            Dasung Paperlike HD (gen 3) Modes
+            <h3><b>Dasung Paperlike HD (gen 3) Modes</b></h3>
       </summary>
 
 | Mode | Name | Goal |Usecases| Notes |
@@ -91,11 +89,11 @@ Make note of the I2C bus path (e.g. `/dev/i2c-3`).
 |2| [Floyd](https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering)| Balance latency and detail |Web browsing, coding, text composition| For best performance, set contrast 3-6.
 |3|A16|Emphasize fine details|Reading PDFs, calendars, task lists|The Accessibility "Reduce Animations" options in your OS may be useful|
 |4|-|-| 
-
 </details>
+
 <details>
       <summary>
-            Dasung Paperlike HD-F/HD-FT Modes
+            <h3><b>Dasung Paperlike HD-F/HD-FT Modes</b></h3>
       </summary>
 
 | Mode | Name | Goal |Usecases| Notes |
