@@ -10,9 +10,13 @@ paperlike-go is a Go library and CLI tool to control a Dasung Paperlike HD* (201
 # Installation
 Paperlike-go can be installed using the `go install` command:
 
-    sudo GOBIN=/usr/local/bin/ go install github.com/leoluk/paperlike-go/cmd/paperlike-cli
+    sudo GOBIN=/usr/local/bin/ go install github.com/leoluk/paperlike-go/cmd/paperlike-cli@latest
 
-## Set up i2c permission for your user
+<details>
+      <summary>
+            <h2>Set up i2c permission for your user</h2>
+      </summary>
+
 Your local user must be able to write to the monitor's i2c bus. 
 
 1. Create a new user group called `i2c`:
@@ -35,7 +39,12 @@ Your local user must be able to write to the monitor's i2c bus.
 
        sudo echo 'KERNEL=="i2c-[0-9]*", GROUP="i2c"' >> /etc/udev/rules.d/10-local_i2c_group.rules
 
-## Find the i2c path for your Dasung device
+</details>
+
+<details>
+      <summary>
+            <h2>Find the i2c path for your Paperlike device</h2>
+      </summary>
 
 To determine the i2c path for your device, run the following command:
 
@@ -44,6 +53,9 @@ To determine the i2c path for your device, run the following command:
 Make note of the I2C bus path (e.g. `/dev/i2c-3`).
 
 >In the case that that this command gives an ambiguous or empty result, you can read the full output by running `ddcutil detect --verbose`
+
+</details>
+
 
 # Usage:
 
