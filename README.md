@@ -1,44 +1,111 @@
 # paperlike-go
 
-paperlike-go is a Go library and CLI tool to control a Dasung Paperlike HD* (2019) screen.
+[![GoDoc](https://godoc.org/github.com/leoluk/paperlike-go?status.svg)](https://godoc.org/github.com/leoluk/paperlike-go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/leoluk/paperlike-go)](https://goreportcard.com/report/github.com/leoluk/paperlike-go)
 
-Installation instructions:
+paperlike-go is a Go library and CLI tool to control a Dasung Paperlike HD\* (2019) screen.
 
-    git clone https://github.com/leoluk/paperlike-go && cd paperlike-go
-    go build github.com/leoluk/paperlike-go/cmd/paperlike-cli
+# Installation
 
-    sudo install -m 0755 paperlike-cli /usr/local/bin/paperlike-cli
+Paperlike-go can be installed using the `go install` command:
 
+    sudo GOBIN=/usr/local/bin/ go install github.com/leoluk/paperlike-go/cmd/paperlike-cli@latest
 
-Your local user must be able to write to the monitor's i2c bus. First, figure
-out the right bus using third-party ddcutil tool (likely packaged by your distro):
+<details>
+      <summary>
+            <h2>Set up i2c permission for your user</h2>
+      </summary>
 
-    ddcutil detect --verbose
+Your local user must be able to write to the monitor's i2c bus.
 
-Create a udev rule which grants your user's group write permissions to i2c devices:
+1. Create a new user group called `i2c`:
 
-    echo "SUBSYSTEM==\"i2c-dev\", GROUP=\"your-group-here\", MODE=\"0660\"" | sudo tee /etc/udev/rules.d/50-i2c.rules
-    sudo udevadm trigger
+       sudo groupadd i2c
 
-Usage:
+2. Add your user to the `i2c` group:
 
-    Usage of paperlike-cli:
-      -clear
-            Clear screen
-      -contrast int
-            Set contrast (1-9)
-      -i2c string
-            i2c device path (see ddcutil detect --verbose)
-      -light1 int
-            Set light1 intensity (0-85) (default -1)
-      -light2 int
-            Set light2 intensity (0-85) (default -1)
-      -mode int
-            Set dithering mode (1-4 for M1-M4)
-      -speed int
-            Set drawing speed (1-5)
+       sudo usermod -a -G i2c $USER
 
-Drawing speeds:
+3. Change the group ownership of `/dev/i2c` codepoints to the `i2c` group:
+
+       sudo chown :i2c /dev/i2c-*
+
+4. Update the group permissions of those same to allow read and write access:
+
+       sudo chmod g+rw /dev/i2c-*
+
+5. Create a udev rule to make these changes persistent:
+
+       sudo echo 'KERNEL=="i2c-[0-9]*", GROUP="i2c"' >> /etc/udev/rules.d/10-local_i2c_group.rules
+
+</details>
+
+<details>
+      <summary>
+            <h2>Find the i2c path for your Paperlike device</h2>
+      </summary>
+
+To determine the i2c path for your device, run the following command:
+
+    ddcutil detect --brief | grep -B 1 -Ei "dsc|dasung|paper"
+
+Make note of the I2C bus path (e.g. `/dev/i2c-3`).
+
+> In the case that that this command gives an ambiguous or empty result, you can read the full output by running `ddcutil detect --verbose`
+
+</details>
+
+# Usage:
+
+    Usage: paperlike-cli -i2c <i2c path> [<command> <value>]
+
+      Mandatory flags:
+            -i2c <path>       absolute path of the target i2c device
+
+      Commands:
+            -clear            Clear & refresh screen
+            -contrast <1-9>   Set contrast
+            -light1 <0-85>    Set light1 intensity; -1 to disable (default)
+            -light2 <0-85>    Set light2 intensity; -1 to disable (default)
+            -mode <1-4>       Set dithering/display mode
+            -speed <1-5>      Set drawing speed
+
+      Examples:
+            paperlike-cli -i2c /dev/i2c-3 -mode 1     set the display mode to M1 for the device at /dev/i2c-3
+            paperlike-cli -i2c /dev/i2c-5 -clear      clear/refresh the screen for the device at /dev/i2c-5
+
+## Display modes:
+
+> Refer to your device's manual for the mapping of M1-M4 to specific image modes.
+
+<details>
+      <summary>
+            <h3><b>Dasung Paperlike HD (gen 3) Modes</b></h3>
+      </summary>
+
+| Mode | Name | Goal |Usecases| Notes |
+|:-:|:--|:-- |:--| :--|
+|1|A2|Emphasize lower latency|Chat applications, real-time dashboards|If ghosting is an issue, make use of the `-clear` command|
+|2| [Floyd](https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering)| Balance latency and detail |Web browsing, coding, text composition| For best performance, set contrast 3-6.
+|3|A16|Emphasize fine details|Reading PDFs, calendars, task lists|The Accessibility "Reduce Animations" options in your OS may be useful|
+|4|-|-| 
+</details>
+
+<details>
+      <summary>
+            <h3><b>Dasung Paperlike HD-F/HD-FT Modes</b></h3>
+      </summary>
+
+| Mode | Name | Goal |Usecases| Notes |
+|:-:|:--|:-- |:--| :--|
+|1|A2|Emphasize lower latency|Chat applications, real-time dashboards|If ghosting is an issue, make use of the `-clear` command|
+|2| [Floyd](https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering)| Balance latency and detail |Web browsing, coding, text composition| For best performance, set contrast 3-6.
+|3|A61|Emphasize fine details|Images, PDFs, handwriting|The Accessibility "Reduce Animations" options in your OS may be useful|
+|4|-|-| 
+
+</details>
+
+## Drawing speeds:
 
     1	Fast++
     2	Fast+
@@ -46,7 +113,7 @@ Drawing speeds:
     4	Black+
     5	Black++
 
-Example i3 config:
+## Example i3 config:
 
     bindsym $mod+Mod1+1 exec paperlike-cli -i2c /dev/i2c-0 -contrast 1
     bindsym $mod+Mod1+2 exec paperlike-cli -i2c /dev/i2c-0 -contrast 2
