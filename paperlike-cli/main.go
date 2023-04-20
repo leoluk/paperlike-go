@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"github.com/leoluk/paperlike-go/pkg/dasung"
+	"github.com/jtbg/paperlike-go/dasung"
 	"log"
 	"path/filepath"
 	"strings"
@@ -24,7 +24,11 @@ func init() {
 	flag.Parse()
 
 	if *flagDevicePath == "" {
-		log.Fatal("please specify device path")
+		path, err := dasung.FindDasungI2CDevicePath()
+		if err != nil {
+			log.Fatal("Failed to find Dasung Paperlike display:", err)
+		}
+		*flagDevicePath = path
 	}
 
 	if !strings.HasPrefix(filepath.Clean(*flagDevicePath), "/dev/i2c-") {
